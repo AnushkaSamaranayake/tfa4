@@ -67,7 +67,7 @@ const Login = () => {
         <div className='p-10 border mt-10 m-3'>
             <h2>Login with 2-Step Verifiaction</h2>
             <input className='border mr-4 px-2 mt-5' type="email" placeholder='Email' onChange={e => setEmail(e.target.value)} />
-            <input className='border mr-4 px-2 mt-5' type="password" placeholder='Password' onChange={e => setPassword(e.targer.value)} />
+            <input className='border mr-4 px-2 mt-5' type="password" placeholder='Password' onChange={e => setPassword(e.target.value)} />
             <button onClick={handleLogin} className='border px-2 py-1 rounded-md'>Log In</button>
             
             <br />
