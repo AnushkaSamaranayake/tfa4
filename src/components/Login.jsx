@@ -5,6 +5,7 @@ import {
     getMultiFactorResolver,
     PhoneAuthProvider,
     RecaptchaVerifier,
+    PhoneMultiFactorGenerator,
 } from 'firebase/auth';
 import { auth } from '../firebase';
 
@@ -61,7 +62,7 @@ const Login = () => {
     const handleVerifyOtp = async () => {
         try {
             const cred = PhoneAuthProvider.credential(verificationId, otp);
-            const MultiFactorAssertion = PhoneAuthProvider.assertion(cred);
+            const MultiFactorAssertion = PhoneMultiFactorGenerator.assertion(cred);
             const userCredential = await resolver.resolveSignIn(MultiFactorAssertion);
             
             alert("2-step verification success, Logged in")
