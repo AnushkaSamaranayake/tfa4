@@ -17,6 +17,7 @@ const Signup = () => {
     const [otpSent, setOtpSent] = useState(false);
     const [otp, setOtp] = useState('');
     const [verificatiionId, setVerificationId] = useState('');
+    const [signedUp, setSignedUp] = useState(false);
 
     const handleSignUp = async () => {
         try {
@@ -25,6 +26,7 @@ const Signup = () => {
 
             await sendEmailVerification(user);
             alert("Verification Email sent. Please Verify the Email.");
+            setSignedUp(true);
 
             auth.signOut();
         } catch (error) {
@@ -37,6 +39,7 @@ const Signup = () => {
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             alert('Successfully logged in')
+
         } catch (error) {
             console.log('Login error', error)
             alert('Login Error')
@@ -102,16 +105,20 @@ const Signup = () => {
 
             <hr />
 
-            <h2 className='mt-5'>Login After Email is Verified</h2>
-            <input className='border mr-4 px-2 mt-5' type="email" placeholder='Email' onChange={e => setEmail(e.target.value)} />
-            <input className='border mr-4 px-2 mt-5' type="password" placeholder='Password' onChange={e => setPassword(e.target.value)} />
-            <button onClick={handleSignIn} className='border px-2 py-1 rounded-md'>Sign In</button>
+            {signedUp && (
+                <>
+                    <h2 className='mt-5'>Login After Email is Verified</h2>
+                    <input className='border mr-4 px-2 mt-5' type="email" placeholder='Email' onChange={e => setEmail(e.target.value)} />
+                    <input className='border mr-4 px-2 mt-5' type="password" placeholder='Password' onChange={e => setPassword(e.target.value)} />
+                    <button onClick={handleSignIn} className='border px-2 py-1 rounded-md'>Sign In</button>
+                
+                    <hr />
 
-            <hr />
-
-            <h2 className='mt-5'>Enable 2-Step Verification</h2>
-            <input className='border mr-4 px-2 mt-5' type="tel" placeholder='Phone' onChange={e => setPhone(e.target.value)} />
-            <button onClick={checkEmailVerifiedAndSendOTP} className='border px-2 py-1 rounded-md'>Send OTP</button>
+                    <h2 className='mt-5'>Enable 2-Step Verification</h2>
+                    <input className='border mr-4 px-2 mt-5' type="tel" placeholder='Phone' onChange={e => setPhone(e.target.value)} />
+                    <button onClick={checkEmailVerifiedAndSendOTP} className='border px-2 py-1 rounded-md'>Send OTP</button>
+                </>
+            )}
 
             <hr />
 
