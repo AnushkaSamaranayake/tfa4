@@ -23,20 +23,29 @@ const Login = () => {
             alert('Login Successfull - no 2-step verification is required');
             // navigate('/')
         }catch (error) {
-            if (error.code === 'auth/multi-factor-auth-required.') {
+            if (error.code === 'auth/multi-factor-auth-required') {
                 const mfaResolver = getMultiFactorResolver(auth, error);
                 setResolver(mfaResolver);
 
-                window.recaptchaVerifier = new RecaptchaVerifier(
-                    auth,
-                    'recaptcha-container',
-                    { size:'invisible' },
-                );
+                const phoneInfoOptions = {
+                    multiFactorHint: mfaResolver.hints[0],
+                    session: mfaResolver.session,
+                };
+
+                if (!window.recaptchaVerifier) {
+                    window.recaptchaVerifier = new RecaptchaVerifier(
+                        auth,
+                        'recaptcha-container',
+                        { size:'invisible' },
+                    )};
+                    await window.recaptchaVerifier.render();
+
+                const recaptchaVerifier = window.recaptchaVerifier
 
                 const phoneAuthProvider = new PhoneAuthProvider(auth);
                 const verificationID = await phoneAuthProvider.verifyPhoneNumber(
                     phoneInfoOptions,
-                    window.recaptchaVerifier
+                    recaptchaVerifier
                 );
 
                 setVerificationId(verificationID);
