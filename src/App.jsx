@@ -6,7 +6,13 @@ const App = () => {
   return (
     <div>
       <h1>Firebase 2-Step Verification</h1>
-      <Signup/>
+      <div>
+        <Signup/>
+      </div>
+      <div>
+        <Login/>
+      </div>
+      
     </div>
   )
 }
